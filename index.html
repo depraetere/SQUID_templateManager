@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Standaardantwoorden — Klantendienst</title>
+<style>
+  :root{
+    --bg:#F5F6F4;
+    --panel:#FFFFFF;
+    --ink:#16232B;
+    --muted:#5C6B6A;
+    --line:#DEE3E0;
+    --accent:#2D6A63;
+    --accent-ink:#FFFFFF;
+    --amber:#C77D2E;
+    --amber-soft:#FBEEE0;
+    --danger:#B3432B;
+    --danger-soft:#F7E3DD;
+    --ok:#2D6A63;
+    --ok-soft:#E4EFEC;
+    --radius:10px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.45;
+  }
+  .mono{font-family:"SF Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;}
+
+  header{
+    position:sticky; top:0; z-index:20;
+    background:var(--panel);
+    border-bottom:1px solid var(--line);
+    padding:14px 18px;
+  }
+  .header-inner{max-width:900px;margin:0 auto;}
+  .title-row{display:flex; align-items:center; gap:10px; flex-wrap:wrap; justify-content:space-between;}
+  h1{font-size:19px; margin:0; letter-spacing:-0.01em;}
+  .subtitle{color:var(--muted); font-size:13px; margin:2px 0 8px;}
+
+  .header-actions{display:flex; gap:8px; flex-wrap:wrap;}
+  .btn{
+    font-size:13px; font-weight:600; padding:8px 13px; border-radius:8px;
+    border:1px solid var(--line); background:var(--panel); color:var(--ink); cursor:pointer;
+  }
+  .btn-primary{background:var(--accent); color:#fff; border-color:var(--accent);}
+  .btn-secondary{background:#fff; color:var(--ink);}
+  .btn-danger{background:#fff; color:var(--danger); border-color:var(--danger);}
+  .btn.active{background:var(--amber); color:#fff; border-color:var(--amber);}
+  .btn:disabled{opacity:.45; cursor:default;}
+
+  .gh-status{
+    font-size:12.5px; padding:8px 12px; border-radius:8px; margin-top:8px;
+  }
+  .gh-status.info{background:#EEF1F0; color:var(--muted);}
+  .gh-status.ok{background:var(--ok-soft); color:var(--ok);}
+  .gh-status.warn{background:var(--amber-soft); color:#6B4212;}
+  .gh-status.error{background:var(--danger-soft); color:var(--danger);}
+
+  .search-wrap{position:relative; margin-top:10px;}
+  #search{
+    width:100%; padding:11px 14px 11px 38px; font-size:15px;
+    border:1px solid var(--line); border-radius:var(--radius);
+    background:var(--bg); color:var(--ink);
+  }
+  #search:focus{outline:2px solid var(--accent); outline-offset:-1px;}
+  .search-icon{
+    position:absolute; left:12px; top:50%; transform:translateY(-50%);
+    color:var(--muted); pointer-events:none; font-size:15px;
+  }
+
+  .lang-filter{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap;}
+  .lang-chip{
+    font-size:12.5px; font-weight:600; padding:6px 12px; border-radius:999px;
+    border:1px solid var(--line); background:var(--panel); color:var(--muted);
+    cursor:pointer; user-select:none;
+  }
+  .lang-chip.active{background:var(--accent); color:var(--accent-ink); border-color:var(--accent);}
+
+  .nav-row{
+    display:flex; gap:8px; overflow-x:auto; margin-top:10px; padding-bottom:2px;
+    -webkit-overflow-scrolling:touch;
+  }
+  .nav-chip{
+    flex:0 0 auto; font-size:12.5px; padding:5px 10px; border-radius:8px;
+    background:var(--bg); border:1px solid var(--line); color:var(--ink);
+    text-decoration:none; white-space:nowrap;
+  }
+  .nav-chip .rank{color:var(--amber); font-weight:700; margin-right:4px;}
+
+  .edit-banner{
+    display:none; background:var(--amber-soft); border:1px solid var(--amber);
+    color:#6B4212; font-size:12.5px; padding:9px 12px; border-radius:8px; margin-top:10px;
+  }
+  body.edit-mode .edit-banner{display:block;}
+  body.edit-mode .edit-only{display:inline-flex;}
+  .edit-only{display:none;}
+
+  main{max-width:900px; margin:0 auto; padding:18px;}
+  .empty-state{
+    text-align:center; color:var(--muted); padding:60px 20px; font-size:14px;
+  }
+  .add-new-row{text-align:center; margin-bottom:16px;}
+
+  .card{
+    background:var(--panel); border:1px solid var(--line); border-radius:14px;
+    margin-bottom:16px; overflow:hidden; scroll-margin-top:260px;
+  }
+  .card.editing{border-color:var(--accent); box-shadow:0 0 0 2px rgba(45,106,99,0.15);}
+  .card-head{
+    display:flex; align-items:center; gap:8px; padding:14px 16px;
+    border-bottom:1px solid var(--line); background:linear-gradient(180deg,#fff,#fbfbfa);
+  }
+  .rank-badge{
+    font-size:12px; font-weight:700; color:var(--amber); background:var(--amber-soft);
+    padding:3px 8px; border-radius:6px; flex:0 0 auto;
+  }
+  .card-head h2{font-size:15.5px; margin:0; flex:1;}
+  .tag-label{font-size:11.5px; color:var(--muted); font-weight:600; margin-left:2px;}
+  .card-head-actions{display:flex; gap:6px; flex:0 0 auto;}
+
+  .lang-block{padding:14px 16px; border-top:1px solid var(--line);}
+  .lang-block:first-of-type{border-top:none;}
+  .lang-label{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:8px;
+  }
+  .lang-tag{
+    font-size:11px; font-weight:700; letter-spacing:.04em; color:var(--muted);
+    text-transform:uppercase;
+  }
+  .subject-row{
+    display:flex; align-items:center; gap:8px; margin-bottom:8px;
+  }
+  .subject-text{
+    font-size:13.5px; color:var(--muted); flex:1;
+  }
+  .subject-text b{color:var(--ink); font-weight:600;}
+
+  .icon-btn{
+    border:1px solid var(--line); background:var(--panel); color:var(--muted);
+    border-radius:7px; padding:4px 7px; font-size:12px; cursor:pointer; flex:0 0 auto;
+  }
+  .icon-btn:hover{border-color:var(--accent); color:var(--accent);}
+  .icon-btn:disabled{opacity:.35; cursor:default;}
+
+  .template-body{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-size:14.5px; background:#FCFCFB; border:1px solid var(--line);
+    border-radius:8px; padding:12px 14px; color:#212B2A;
+  }
+  .template-body p{margin:0 0 8px;}
+  .template-body p:last-child{margin-bottom:0;}
+  .template-body img, .edit-body img{max-width:100%; height:auto;}
+  .template-body table, .edit-body table{max-width:100%; border-collapse:collapse;}
+
+  .copy-row{display:flex; justify-content:flex-end; margin-top:8px;}
+  .copy-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--accent); color:var(--accent-ink); border:none;
+    padding:8px 14px; border-radius:8px; font-size:13px; font-weight:600; cursor:pointer;
+  }
+  .copy-btn:active{transform:scale(0.98);}
+  .copy-btn.copied{background:var(--amber);}
+
+  .edit-input{
+    width:100%; padding:8px 10px; font-size:14px; border:1px solid var(--line);
+    border-radius:7px; background:#fff; color:var(--ink); font-family:inherit; margin-bottom:8px;
+  }
+  .title-input{font-size:15px; font-weight:600;}
+  .card-head input.edit-input{margin-bottom:0;}
+  .edit-body{
+    font-family:Georgia,"Iowan Old Style","Times New Roman",serif;
+    font-size:14.5px; min-height:90px; background:#fff; border:1px solid var(--accent);
+    border-radius:8px; padding:12px 14px; color:#212B2A;
+  }
+  .edit-body:empty:before{content:attr(data-placeholder); color:var(--muted); font-style:italic;}
+  .edit-body p{margin:0 0 8px;}
+  .edit-actions{display:flex; justify-content:flex-end; gap:8px; padding:12px 16px; background:#fbfbfa; border-top:1px solid var(--line);}
+
+  footer{max-width:900px; margin:0 auto; padding:10px 18px 40px; color:var(--muted); font-size:12px;}
+  footer a{color:var(--accent);}
+
+  /* settings modal */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(22,35,43,0.45);
+    z-index:50; align-items:center; justify-content:center; padding:20px;
+  }
+  .modal{
+    background:#fff; border-radius:14px; max-width:440px; width:100%;
+    padding:22px; max-height:90vh; overflow-y:auto;
+  }
+  .modal h3{margin:0 0 6px; font-size:17px;}
+  .modal-hint{font-size:12.5px; color:var(--muted); margin:0 0 14px; line-height:1.5;}
+  .modal label{display:block; font-size:13px; font-weight:600; margin-bottom:4px; margin-top:12px;}
+  .modal input{
+    width:100%; padding:9px 11px; font-size:14px; border:1px solid var(--line);
+    border-radius:7px; font-family:inherit;
+  }
+  .modal-actions{display:flex; justify-content:flex-end; gap:8px; margin-top:18px;}
+
+  @media (max-width:600px){
+    h1{font-size:17px;}
+    .card-head h2{font-size:14px;}
+    .title-row{flex-direction:column; align-items:flex-start;}
+  }
+</style>
+</head>
+<body data-lang-filter="alle">
+
+<header>
+  <div class="header-inner">
+    <div class="title-row">
+      <h1>Standaardantwoorden</h1>
+      <div class="header-actions">
+        <button class="btn btn-secondary" onclick="openSettings()">⚙️ GitHub</button>
+        <button class="btn btn-secondary" onclick="reloadFromGithub()">🔄 Vernieuwen</button>
+        <button class="btn btn-secondary" id="editModeBtn" onclick="setEditMode(!editMode)">✏️ Bewerkmodus</button>
+        <button class="btn btn-primary" onclick="saveToGithub()">💾 Opslaan naar GitHub</button>
+      </div>
+    </div>
+    <div class="subtitle">Zoek een onderwerp, kies je taal, klik op "Kopieer" en plak in Outlook.</div>
+
+    <div class="gh-status info" id="ghStatus">Nog niet verbonden met GitHub. Klik op ⚙️ GitHub om dit in te stellen.</div>
+
+    <div class="edit-banner">
+      <b>Bewerkmodus staat aan.</b> Wijzigingen staan pas vast voor collega's nadat je op "Opslaan naar GitHub" klikt.
+    </div>
+
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input id="search" type="text" placeholder="Zoek op onderwerp… (bv. levering, factuur, verlof)" autocomplete="off">
+    </div>
+
+    <div class="lang-filter" id="langFilter">
+      <span class="lang-chip active" data-lang="alle">Alle talen</span>
+      <span class="lang-chip" data-lang="nl">NL</span>
+      <span class="lang-chip" data-lang="fr">FR</span>
+      <span class="lang-chip" data-lang="en">EN</span>
+      <span class="lang-chip" data-lang="de">DE</span>
+    </div>
+
+    <nav class="nav-row" id="navRow"></nav>
+  </div>
+</header>
+
+<main>
+  <div class="add-new-row edit-only">
+    <button class="btn btn-primary" onclick="addNewTemplate()">➕ Nieuwe template toevoegen</button>
+  </div>
+  <div id="catalog"></div>
+  <div class="empty-state" id="emptyState" style="display:none;">Niets gevonden. Probeer een ander zoekwoord.</div>
+</main>
+
+<footer>
+  Tip: pas [Naam], [Bedrijf], [Ordernummer] en [Datum] aan vóór je verstuurt.<br>
+  Wijzigingen worden gedeeld met collega's via jullie GitHub-repository — klik op "Opslaan naar GitHub" na het bewerken, en op "Vernieuwen" om de laatste versie van collega's op te halen.
+</footer>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3>GitHub-koppeling</h3>
+    <p class="modal-hint">Nodig om templates te lezen en op te slaan vanuit jullie repository. De token wordt enkel in jouw eigen browser bewaard (localStorage) — nooit verstuurd naar iemand anders dan GitHub zelf.</p>
+    <label>Gebruikersnaam of organisatie</label>
+    <input id="cfgOwner" placeholder="bv. jouw-bedrijf">
+    <label>Repository-naam</label>
+    <input id="cfgRepo" placeholder="bv. standaardantwoorden">
+    <label>Bestandsnaam</label>
+    <input id="cfgPath" placeholder="templates.json" value="templates.json">
+    <label>Branch</label>
+    <input id="cfgBranch" placeholder="main" value="main">
+    <label>Personal Access Token</label>
+    <input id="cfgToken" type="password" placeholder="ghp_… of github_pat_…">
+    <p class="modal-hint">
+      Token aanmaken: GitHub → je profielfoto → <b>Settings</b> → <b>Developer settings</b> → <b>Fine-grained tokens</b> → <b>Generate new token</b>. Beperk "Repository access" tot enkel deze repository, en geef bij "Permissions" → "Contents" de rechten <b>Read and write</b>.<br>
+      Enkel lezen/kopiëren nodig (niet bewerken)? Dan volstaat een token zonder schrijfrechten, of laat dit veld leeg als de repository publiek is.
+    </p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="closeSettings()">Annuleren</button>
+      <button class="btn btn-primary" onclick="saveSettingsAndReload()">Opslaan &amp; verbinden</button>
+    </div>
+  </div>
+</div>
+
+<script id="templateData">
+let templates = [
+  {
+    id:"tpl01", tag:"Afwezigheid", title:"Afwezigheidsmelding (verlof)",
+    subject:{
+      nl:"Automatisch antwoord — Afwezig tot [Datum]",
+      fr:"Réponse automatique — Absent(e) jusqu'au [Datum]",
+      en:"Automatic reply — Out of office until [Datum]",
+      de:"Automatische Antwort — Abwesend bis [Datum]"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt voor uw bericht. Ik ben afwezig tot en met [Datum] en heb momenteel geen toegang tot mijn mailbox.</p><p>Voor dringende zaken kan u terecht bij [Collega/Team] via [Contact]. Uw bericht wordt bij mijn terugkeer zo snel mogelijk beantwoord.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci pour votre message. Je suis absent(e) jusqu'au [Datum] inclus et n'ai pas accès à ma messagerie durant cette période.</p><p>Pour toute question urgente, veuillez contacter [Collega/Team] via [Contact]. Votre message recevra une réponse dès mon retour.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for your message. I am out of office until [Datum] and do not have access to my mailbox during this time.</p><p>For urgent matters, please contact [Collega/Team] via [Contact]. Your message will be answered as soon as I return.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>Vielen Dank für Ihre Nachricht. Ich bin bis einschließlich [Datum] abwesend und habe in dieser Zeit keinen Zugriff auf mein Postfach.</p><p>Bei dringenden Anliegen wenden Sie sich bitte an [Collega/Team] über [Contact]. Ihre Nachricht wird nach meiner Rückkehr schnellstmöglich beantwortet.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    id:"tpl02", tag:"Klacht", title:"Ontvangstbevestiging klacht",
+    subject:{
+      nl:"Uw klacht is bij ons geregistreerd — dossier [Ordernummer]",
+      fr:"Votre réclamation a bien été enregistrée — dossier [Ordernummer]",
+      en:"Your complaint has been registered — case [Ordernummer]",
+      de:"Ihre Reklamation wurde erfasst — Vorgang [Ordernummer]"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt om ons te contacteren. We hebben uw klacht ontvangen en geregistreerd onder dossiernummer [Ordernummer].</p><p>Ons team bekijkt uw situatie en neemt binnen de 2 werkdagen contact met u op.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci de nous avoir contactés. Nous avons bien reçu et enregistré votre réclamation sous le numéro de dossier [Ordernummer].</p><p>Notre équipe examine votre situation et reviendra vers vous dans les 2 jours ouvrables.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for contacting us. We have received and registered your complaint under case number [Ordernummer].</p><p>Our team is reviewing your situation and will get back to you within 2 business days.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>Vielen Dank für Ihre Nachricht. Wir haben Ihre Reklamation erhalten und unter der Vorgangsnummer [Ordernummer] erfasst.</p><p>Unser Team prüft Ihr Anliegen und meldet sich innerhalb von 2 Werktagen bei Ihnen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl03", tag:"Levering", title:"Vertraging bij levering",
+    subject:{
+      nl:"Update over uw bestelling [Ordernummer] — lichte vertraging",
+      fr:"Mise à jour de votre commande [Ordernummer] — léger retard",
+      en:"Update on your order [Ordernummer] — slight delay",
+      de:"Update zu Ihrer Bestellung [Ordernummer] — kleine Verzögerung"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>We willen u laten weten dat uw bestelling [Ordernummer] iets vertraging oploopt. De nieuwe verwachte leverdatum is [Datum].</p><p>Onze excuses voor het ongemak. Zodra uw pakket verzonden is, ontvangt u een track & trace-link.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Nous tenions à vous informer que votre commande [Ordernummer] accuse un léger retard. La nouvelle date de livraison prévue est le [Datum].</p><p>Nous nous excusons pour la gêne occasionnée. Dès l'expédition de votre colis, vous recevrez un lien de suivi.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>We wanted to let you know that your order [Ordernummer] is experiencing a slight delay. The new expected delivery date is [Datum].</p><p>We apologise for the inconvenience. Once your parcel ships, you will receive a tracking link.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>wir möchten Sie darüber informieren, dass sich Ihre Bestellung [Ordernummer] leicht verzögert. Das neue voraussichtliche Lieferdatum ist der [Datum].</p><p>Wir entschuldigen uns für die Unannehmlichkeiten. Sobald Ihr Paket versendet wurde, erhalten Sie einen Sendungsverfolgungslink.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl04", tag:"Facturatie", title:"Vraag over factuur",
+    subject:{
+      nl:"Betreft uw vraag over factuur [Ordernummer]",
+      fr:"Concernant votre question relative à la facture [Ordernummer]",
+      en:"Regarding your question about invoice [Ordernummer]",
+      de:"Zu Ihrer Frage bezüglich Rechnung [Ordernummer]"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt voor uw bericht over factuur [Ordernummer]. We bekijken dit graag voor u.</p><p>Kan u ons bevestigen welk bedrag of welke lijn op de factuur onduidelijk is? Zo kunnen we dit zo snel mogelijk rechtzetten of verduidelijken.</p><p>Met vriendelijke groeten,<br><b>Boekhouding / Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci pour votre message concernant la facture [Ordernummer]. Nous allons volontiers l'examiner.</p><p>Pourriez-vous nous confirmer quel montant ou quelle ligne de la facture pose question ? Nous pourrons ainsi corriger ou clarifier la situation rapidement.</p><p>Cordialement,<br><b>Comptabilité / Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for your message regarding invoice [Ordernummer]. We are happy to look into this for you.</p><p>Could you confirm which amount or line item on the invoice is unclear? This will help us correct or clarify it as quickly as possible.</p><p>Kind regards,<br><b>Accounting / Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihre Nachricht bezüglich der Rechnung [Ordernummer]. Wir prüfen dies gerne für Sie.</p><p>Könnten Sie uns bestätigen, welcher Betrag oder welche Position auf der Rechnung unklar ist? So können wir dies möglichst schnell klären.</p><p>Mit freundlichen Grüßen,<br><b>Buchhaltung / Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl05", tag:"Bestelling", title:"Bestelling bevestigd",
+    subject:{
+      nl:"Bevestiging van uw bestelling [Ordernummer]",
+      fr:"Confirmation de votre commande [Ordernummer]",
+      en:"Confirmation of your order [Ordernummer]",
+      de:"Bestätigung Ihrer Bestellung [Ordernummer]"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>We bevestigen dat we uw bestelling [Ordernummer] goed hebben ontvangen. Ze wordt verwerkt en u ontvangt een verzendbevestiging zodra ze onderweg is.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Nous vous confirmons la bonne réception de votre commande [Ordernummer]. Elle est en cours de traitement et vous recevrez une confirmation d'expédition dès son départ.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>We confirm that we have received your order [Ordernummer]. It is being processed and you will receive a shipping confirmation once it is on its way.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen den Eingang Ihrer Bestellung [Ordernummer]. Sie wird derzeit bearbeitet, und Sie erhalten eine Versandbestätigung, sobald sie unterwegs ist.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl06", tag:"Terugbetaling", title:"Terugbetaling in verwerking",
+    subject:{
+      nl:"Uw terugbetaling voor [Ordernummer] is in verwerking",
+      fr:"Votre remboursement pour [Ordernummer] est en cours de traitement",
+      en:"Your refund for [Ordernummer] is being processed",
+      de:"Ihre Rückerstattung für [Ordernummer] wird bearbeitet"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>We bevestigen dat de terugbetaling voor [Ordernummer] is opgestart. Reken op een verwerkingstijd van 3 tot 5 werkdagen, afhankelijk van uw bank.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Nous confirmons que le remboursement pour [Ordernummer] a bien été initié. Comptez un délai de traitement de 3 à 5 jours ouvrables, selon votre banque.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>We confirm that the refund for [Ordernummer] has been initiated. Please allow 3 to 5 business days for processing, depending on your bank.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen, dass die Rückerstattung für [Ordernummer] eingeleitet wurde. Rechnen Sie je nach Bank mit 3 bis 5 Werktagen Bearbeitungszeit.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl07", tag:"Storing", title:"Technische storing gemeld",
+    subject:{
+      nl:"We onderzoeken het gemelde probleem — [Ordernummer]",
+      fr:"Nous examinons le problème signalé — [Ordernummer]",
+      en:"We are investigating the reported issue — [Ordernummer]",
+      de:"Wir prüfen das gemeldete Problem — [Ordernummer]"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt om het probleem te melden. Ons technisch team is op de hoogte en onderzoekt de oorzaak.</p><p>We houden u op de hoogte van zodra er nieuws is, en danken u voor uw geduld.</p><p>Met vriendelijke groeten,<br><b>Technische Dienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci de nous avoir signalé ce problème. Notre équipe technique en a été informée et en recherche la cause.</p><p>Nous vous tiendrons informé(e) dès que possible et vous remercions pour votre patience.</p><p>Cordialement,<br><b>Service technique</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for reporting this issue. Our technical team has been notified and is investigating the cause.</p><p>We will keep you updated as soon as we have news, and thank you for your patience.</p><p>Kind regards,<br><b>Technical Support</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für die Meldung. Unser technisches Team wurde informiert und untersucht die Ursache.</p><p>Wir halten Sie auf dem Laufenden, sobald es Neuigkeiten gibt, und danken Ihnen für Ihre Geduld.</p><p>Mit freundlichen Grüßen,<br><b>Technischer Support</b></p>"
+    }
+  },
+  {
+    id:"tpl08", tag:"Offerte", title:"Offerte-aanvraag ontvangen",
+    subject:{
+      nl:"Uw offerteaanvraag hebben we ontvangen",
+      fr:"Votre demande de devis a bien été reçue",
+      en:"We have received your quote request",
+      de:"Ihre Angebotsanfrage ist bei uns eingegangen"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt voor uw interesse. We hebben uw aanvraag voor een offerte goed ontvangen en bereiden deze voor.</p><p>U ontvangt onze voorstel binnen de [X] werkdagen.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci pour votre intérêt. Nous avons bien reçu votre demande de devis et sommes en train de la préparer.</p><p>Vous recevrez notre proposition sous [X] jours ouvrables.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for your interest. We have received your quote request and are preparing it.</p><p>You will receive our proposal within [X] business days.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihr Interesse. Wir haben Ihre Angebotsanfrage erhalten und bereiten diese vor.</p><p>Sie erhalten unser Angebot innerhalb von [X] Werktagen.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    id:"tpl09", tag:"Gegevens", title:"Adres- of contactwijziging verwerkt",
+    subject:{
+      nl:"Uw gegevens werden aangepast",
+      fr:"Vos coordonnées ont été mises à jour",
+      en:"Your details have been updated",
+      de:"Ihre Daten wurden aktualisiert"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>We bevestigen dat uw gegevens correct werden aangepast in ons systeem.</p><p>Als iets niet klopt, laat het ons gerust weten.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Nous vous confirmons que vos coordonnées ont bien été mises à jour dans notre système.</p><p>N'hésitez pas à nous signaler toute inexactitude.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>We confirm that your details have been successfully updated in our system.</p><p>Please let us know if anything looks incorrect.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen, dass Ihre Daten in unserem System erfolgreich aktualisiert wurden.</p><p>Sollte etwas nicht stimmen, lassen Sie es uns gerne wissen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl10", tag:"Contract", title:"Contractverlenging",
+    subject:{
+      nl:"Uw contract [Ordernummer] — verlenging",
+      fr:"Votre contrat [Ordernummer] — renouvellement",
+      en:"Your contract [Ordernummer] — renewal",
+      de:"Ihr Vertrag [Ordernummer] — Verlängerung"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Uw contract [Ordernummer] loopt binnenkort af op [Datum]. Graag bespreken we de verlenging op een moment dat u past.</p><p>Laat ons weten welke datum u schikt.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Votre contrat [Ordernummer] arrive à échéance le [Datum]. Nous aimerions discuter de son renouvellement à un moment qui vous convient.</p><p>Merci de nous indiquer une date.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      en:"<p>Dear [Naam],</p><p>Your contract [Ordernummer] is due to expire on [Datum]. We would like to discuss its renewal at a time that suits you.</p><p>Please let us know a convenient date.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>Ihr Vertrag [Ordernummer] läuft am [Datum] aus. Wir möchten die Verlängerung gerne zu einem für Sie passenden Zeitpunkt besprechen.</p><p>Bitte teilen Sie uns einen passenden Termin mit.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    id:"tpl11", tag:"Klacht", title:"Klacht opgelost — opvolging",
+    subject:{
+      nl:"Uw dossier [Ordernummer] is afgerond",
+      fr:"Votre dossier [Ordernummer] est clôturé",
+      en:"Your case [Ordernummer] has been resolved",
+      de:"Ihr Vorgang [Ordernummer] wurde abgeschlossen"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>We laten u weten dat dossier [Ordernummer] werd afgerond. We hopen dat de oplossing naar wens is.</p><p>Heeft u nog vragen, dan helpen we u graag verder.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Nous vous informons que le dossier [Ordernummer] a été clôturé. Nous espérons que la solution apportée vous convient.</p><p>N'hésitez pas à revenir vers nous pour toute question.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>We would like to let you know that case [Ordernummer] has been resolved. We hope the outcome meets your expectations.</p><p>If you have any further questions, we are happy to help.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>wir möchten Sie informieren, dass der Vorgang [Ordernummer] abgeschlossen wurde. Wir hoffen, die Lösung entspricht Ihren Erwartungen.</p><p>Bei weiteren Fragen helfen wir Ihnen gerne.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    id:"tpl12", tag:"Buiten uren", title:"Bericht buiten kantooruren ontvangen",
+    subject:{
+      nl:"We hebben uw bericht ontvangen",
+      fr:"Nous avons bien reçu votre message",
+      en:"We have received your message",
+      de:"Wir haben Ihre Nachricht erhalten"
+    },
+    body:{
+      nl:"<p>Beste [Naam],</p><p>Bedankt voor uw bericht. Onze kantoren zijn momenteel gesloten; we behandelen berichten van maandag tot vrijdag, van 9 tot 17 uur.</p><p>We nemen zo snel mogelijk contact met u op tijdens de eerstvolgende werkdag.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      fr:"<p>Bonjour [Naam],</p><p>Merci pour votre message. Nos bureaux sont actuellement fermés ; nous traitons les messages du lundi au vendredi, de 9h à 17h.</p><p>Nous reviendrons vers vous dès le prochain jour ouvrable.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      en:"<p>Dear [Naam],</p><p>Thank you for your message. Our offices are currently closed; we handle messages Monday to Friday, 9am to 5pm.</p><p>We will get back to you as soon as possible on the next business day.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      de:"<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihre Nachricht. Unsere Büros sind derzeit geschlossen; wir bearbeiten Nachrichten von Montag bis Freitag, 9 bis 17 Uhr.</p><p>Wir melden uns schnellstmöglich am nächsten Werktag bei Ihnen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  }
+];
+</script>
+
+<script id="appLogic">
+const LANG_NAMES = {nl:"Nederlands", fr:"Français", en:"English", de:"Deutsch"};
+const catalogEl = document.getElementById('catalog');
+const navRow = document.getElementById('navRow');
+const emptyState = document.getElementById('emptyState');
+let editMode = false;
+const editingIds = new Set();
+let currentSha = null;
+
+const GH_KEY = 'std_gh_settings_v1';
+
+function escAttr(s){ return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;'); }
+function escapeHtml(s){ const d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+function ensureIds(){
+  templates.forEach(t => { if(!t.id) t.id = 'tpl_' + Math.random().toString(36).slice(2,9); });
+}
+
+// ---------------- rendering ----------------
+function render(){
+  renderNav();
+  renderCatalog();
+  applyFilters();
+}
+
+function renderNav(){
+  navRow.innerHTML = templates.map((t, idx) =>
+    `<a class="nav-chip" href="#tpl-${t.id}"><span class="rank">${String(idx+1).padStart(2,'0')}</span>${escapeHtml(t.title)}</a>`
+  ).join('');
+}
+
+function renderCatalog(){
+  catalogEl.innerHTML = templates.map((t, idx) =>
+    editingIds.has(t.id) ? renderEditCard(t) : renderViewCard(t, idx, templates.length)
+  ).join('');
+}
+
+function renderViewCard(t, idx, total){
+  const searchBlob = (t.title + ' ' + (t.tag||'') + ' ' + Object.values(t.body).join(' ')).toLowerCase().replace(/"/g,'&quot;');
+  return `
+    <section class="card" id="tpl-${t.id}" data-search="${searchBlob}">
+      <div class="card-head">
+        <span class="rank-badge mono">${String(idx+1).padStart(2,'0')}</span>
+        <h2>${escapeHtml(t.title)} ${t.tag ? `<span class="tag-label">· ${escapeHtml(t.tag)}</span>` : ''}</h2>
+        <div class="card-head-actions edit-only">
+          <button class="icon-btn" title="Naar boven" ${idx===0?'disabled':''} onclick="moveUp('${t.id}')">⬆️</button>
+          <button class="icon-btn" title="Naar beneden" ${idx===total-1?'disabled':''} onclick="moveDown('${t.id}')">⬇️</button>
+          <button class="icon-btn" title="Bewerken" onclick="startEdit('${t.id}')">✏️</button>
+          <button class="icon-btn" title="Verwijderen" onclick="deleteTemplate('${t.id}')">🗑️</button>
+        </div>
+      </div>
+      ${Object.keys(LANG_NAMES).map(lang => `
+        <div class="lang-block" data-lang="${lang}">
+          <div class="lang-label"><span class="lang-tag">${LANG_NAMES[lang]}</span></div>
+          <div class="subject-row">
+            <span class="subject-text"><b>Onderwerp:</b> ${escapeHtml(t.subject[lang]||'')}</span>
+            <button class="icon-btn" title="Kopieer onderwerp" onclick="copySubject(this, '${t.id}', '${lang}')">⧉</button>
+          </div>
+          <div class="template-body">${t.body[lang]||'<p><i>(leeg)</i></p>'}</div>
+          <div class="copy-row">
+            <button class="copy-btn" onclick="copyBody(this, '${t.id}', '${lang}')">📋 Kopieer</button>
+          </div>
+        </div>
+      `).join('')}
+    </section>
+  `;
+}
+
+function renderEditCard(t){
+  return `
+    <section class="card editing" id="tpl-${t.id}">
+      <div class="card-head">
+        <input class="edit-input title-input" id="f-title-${t.id}" value="${escAttr(t.title)}" placeholder="Titel van de template">
+        <input class="edit-input" style="max-width:160px;" id="f-tag-${t.id}" value="${escAttr(t.tag)}" placeholder="Categorie-label">
+      </div>
+      ${Object.keys(LANG_NAMES).map(lang => `
+        <div class="lang-block">
+          <div class="lang-label"><span class="lang-tag">${LANG_NAMES[lang]}</span></div>
+          <input class="edit-input" id="f-subject-${t.id}-${lang}" value="${escAttr(t.subject[lang]||'')}" placeholder="Onderwerp (${LANG_NAMES[lang]})">
+          <div class="edit-body" id="f-body-${t.id}-${lang}" contenteditable="true" data-placeholder="Plak hier de tekst uit Outlook/Word…">${t.body[lang]||''}</div>
+        </div>
+      `).join('')}
+      <div class="edit-actions">
+        <button class="btn btn-secondary" onclick="cancelEdit('${t.id}')">Annuleren</button>
+        <button class="btn btn-primary" onclick="saveEdit('${t.id}')">Opslaan</button>
+      </div>
+    </section>
+  `;
+}
+
+// ---------------- edit mode ----------------
+function setEditMode(on){
+  editMode = on;
+  document.body.classList.toggle('edit-mode', on);
+  document.getElementById('editModeBtn').classList.toggle('active', on);
+  document.getElementById('editModeBtn').textContent = on ? '✓ Bewerkmodus aan' : '✏️ Bewerkmodus';
+  if(!on) editingIds.clear();
+  render();
+}
+
+function startEdit(id){ editingIds.add(id); render(); }
+function cancelEdit(id){ editingIds.delete(id); render(); }
+
+function saveEdit(id){
+  const idx = templates.findIndex(t => t.id === id);
+  if(idx === -1) return;
+  const title = document.getElementById(`f-title-${id}`).value.trim() || 'Naamloze template';
+  const tag = document.getElementById(`f-tag-${id}`).value.trim();
+  const subject = {}, body = {};
+  Object.keys(LANG_NAMES).forEach(lang => {
+    subject[lang] = document.getElementById(`f-subject-${id}-${lang}`).value.trim();
+    body[lang] = document.getElementById(`f-body-${id}-${lang}`).innerHTML.trim();
+  });
+  templates[idx] = { ...templates[idx], title, tag, subject, body };
+  editingIds.delete(id);
+  render();
+}
+
+function deleteTemplate(id){
+  const t = templates.find(x => x.id === id);
+  if(!confirm(`Template "${t ? t.title : id}" verwijderen?\n\nDit wijzigt enkel deze browser. Klik nadien op "Opslaan naar GitHub" om het definitief te delen.`)) return;
+  templates = templates.filter(x => x.id !== id);
+  editingIds.delete(id);
+  render();
+}
+
+function addNewTemplate(){
+  const newId = 'tpl_' + Math.random().toString(36).slice(2,9);
+  templates.push({
+    id:newId, tag:'', title:'Nieuwe template',
+    subject:{nl:'',fr:'',en:'',de:''},
+    body:{nl:'',fr:'',en:'',de:''}
+  });
+  editingIds.add(newId);
+  render();
+  setTimeout(() => {
+    const el = document.getElementById('tpl-' + newId);
+    if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+  }, 60);
+}
+
+function moveUp(id){
+  const i = templates.findIndex(t => t.id === id);
+  if(i > 0){ [templates[i-1], templates[i]] = [templates[i], templates[i-1]]; render(); }
+}
+function moveDown(id){
+  const i = templates.findIndex(t => t.id === id);
+  if(i > -1 && i < templates.length - 1){ [templates[i+1], templates[i]] = [templates[i], templates[i+1]]; render(); }
+}
+
+// ---------------- paste handling (Outlook/Word -> cleaned HTML) ----------------
+document.addEventListener('paste', function(e){
+  const target = e.target.closest && e.target.closest('.edit-body');
+  if(!target) return;
+  e.preventDefault();
+  const cd = e.clipboardData || window.clipboardData;
+  const html = cd.getData('text/html');
+  const text = cd.getData('text/plain');
+  let clean;
+  if(html && html.trim()){
+    clean = sanitizePastedHtml(html);
+  } else {
+    clean = text.split(/\n{2,}/).map(p => '<p>' + escapeHtml(p).replace(/\n/g,'<br>') + '</p>').join('');
+  }
+  insertHtmlAtCursor(clean);
+});
+
+function insertHtmlAtCursor(html){
+  const sel = window.getSelection();
+  if(!sel.rangeCount) return;
+  const range = sel.getRangeAt(0);
+  range.deleteContents();
+  const frag = range.createContextualFragment(html);
+  const lastNode = frag.lastChild;
+  range.insertNode(frag);
+  if(lastNode){
+    range.setStartAfter(lastNode);
+    range.setEndAfter(lastNode);
+    sel.removeAllRanges();
+    sel.addRange(range);
+  }
+}
+
+const PASTE_DROP_TAGS = new Set(['SCRIPT','STYLE','META','LINK','HEAD','TITLE','NOSCRIPT']);
+const PASTE_ALLOWED_TAGS = new Set([
+  'P','DIV','SPAN','B','STRONG','I','EM','U','SUP','SUB','BLOCKQUOTE','HR',
+  'H1','H2','H3','H4','H5','H6','UL','OL','LI','A','IMG','FONT',
+  'TABLE','THEAD','TBODY','TFOOT','TR','TD','TH'
+]);
+const PASTE_TAG_ATTRS = {
+  A:['href','title'],
+  TABLE:['width','border','cellpadding','cellspacing'],
+  TD:['colspan','rowspan','align','valign','width'],
+  TH:['colspan','rowspan','align','valign','width'],
+  FONT:['color','face','size']
+};
+
+function cleanPastedStyle(styleStr){
+  if(!styleStr) return '';
+  return styleStr.split(';').map(s=>s.trim()).filter(s => s && !/^-?mso/i.test(s)).join('; ');
+}
+
+function sanitizePastedHtml(html){
+  const doc = new DOMParser().parseFromString(html, 'text/html');
+  function walk(node){
+    const out = document.createDocumentFragment();
+    node.childNodes.forEach(child => {
+      if(child.nodeType === Node.TEXT_NODE){ out.appendChild(document.createTextNode(child.textContent)); return; }
+      if(child.nodeType !== Node.ELEMENT_NODE) return;
+      const tag = child.tagName;
+      if(PASTE_DROP_TAGS.has(tag)) return;
+      if(tag === 'BR'){ out.appendChild(document.createElement('br')); return; }
+      if(tag === 'IMG'){
+        const src = child.getAttribute('src');
+        if(!src) return;
+        const img = document.createElement('img');
+        img.setAttribute('src', src);
+        if(child.getAttribute('alt')) img.setAttribute('alt', child.getAttribute('alt'));
+        const style = cleanPastedStyle(child.getAttribute('style'));
+        img.setAttribute('style', (style ? style + '; ' : '') + 'max-width:100%;');
+        if(child.getAttribute('width')) img.setAttribute('width', child.getAttribute('width'));
+        if(child.getAttribute('height')) img.setAttribute('height', child.getAttribute('height'));
+        out.appendChild(img);
+        return;
+      }
+      if(PASTE_ALLOWED_TAGS.has(tag)){
+        const el = document.createElement(tag.toLowerCase());
+        (PASTE_TAG_ATTRS[tag] || []).forEach(attr => {
+          const v = child.getAttribute(attr);
+          if(v) el.setAttribute(attr, v);
+        });
+        const style = cleanPastedStyle(child.getAttribute('style'));
+        if(style) el.setAttribute('style', style);
+        el.appendChild(walk(child));
+        out.appendChild(el);
+        return;
+      }
+      out.appendChild(walk(child));
+    });
+    return out;
+  }
+  const frag = walk(doc.body);
+  const container = document.createElement('div');
+  container.appendChild(frag);
+  let result = container.innerHTML.trim();
+  if(result && !/^<(p|ul|ol|table|div|h[1-6]|blockquote)[ >]/i.test(result)){
+    result = '<p>' + result + '</p>';
+  }
+  return result;
+}
+
+// ---------------- clipboard copy (view mode) ----------------
+async function copyBody(btn, id, lang){
+  const t = templates.find(x => x.id === id);
+  if(!t) return;
+  const html = t.body[lang] || '';
+  const plain = html.replace(/<br\s*\/?>/g,'\n').replace(/<\/p>/g,'\n\n').replace(/<[^>]+>/g,'').trim();
+  const ok = await writeClipboard(html, plain);
+  flashButton(btn, ok);
+}
+
+async function copySubject(btn, id, lang){
+  const t = templates.find(x => x.id === id);
+  if(!t) return;
+  const text = t.subject[lang] || '';
+  let ok = true;
+  try{ await navigator.clipboard.writeText(text); }
+  catch(e){ ok = fallbackExecCopyPlain(text); }
+  flashButton(btn, ok, true);
+}
+
+async function writeClipboard(html, plain){
+  try{
+    if(window.ClipboardItem){
+      const item = new ClipboardItem({
+        'text/html': new Blob([html], {type:'text/html'}),
+        'text/plain': new Blob([plain], {type:'text/plain'})
+      });
+      await navigator.clipboard.write([item]);
+      return true;
+    }
+    throw new Error('no ClipboardItem');
+  }catch(e){
+    try{ await navigator.clipboard.writeText(plain); return true; }
+    catch(e2){ return fallbackExecCopyHtml(html); }
+  }
+}
+
+function fallbackExecCopyHtml(html){
+  const container = document.createElement('div');
+  container.contentEditable = 'true';
+  container.style.position = 'fixed';
+  container.style.left = '-9999px';
+  container.innerHTML = html;
+  document.body.appendChild(container);
+  const range = document.createRange();
+  range.selectNodeContents(container);
+  const sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+  sel.removeAllRanges();
+  document.body.removeChild(container);
+  return ok;
+}
+
+function fallbackExecCopyPlain(text){
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select();
+  let ok = false;
+  try{ ok = document.execCommand('copy'); }catch(e){ ok = false; }
+  document.body.removeChild(ta);
+  return ok;
+}
+
+function flashButton(btn, ok, small){
+  const original = btn.textContent;
+  btn.textContent = ok ? (small ? '✓' : '✓ Gekopieerd') : (small ? '✗' : 'Kopiëren mislukt');
+  btn.classList.toggle('copied', ok);
+  setTimeout(() => { btn.textContent = original; btn.classList.remove('copied'); }, 1500);
+}
+
+// ---------------- search + language filter ----------------
+function applyFilters(){
+  const q = document.getElementById('search').value.trim().toLowerCase();
+  const activeLang = document.body.dataset.langFilter || 'alle';
+  let visibleCount = 0;
+  document.querySelectorAll('.card').forEach(card => {
+    if(card.classList.contains('editing')){ card.style.display=''; visibleCount++; return; }
+    const match = !q || (card.dataset.search || '').includes(q);
+    card.style.display = match ? '' : 'none';
+    if(match) visibleCount++;
+    card.querySelectorAll('.lang-block').forEach(block => {
+      block.style.display = (activeLang === 'alle' || block.dataset.lang === activeLang) ? '' : 'none';
+    });
+  });
+  document.querySelectorAll('.nav-chip').forEach(chip => {
+    const id = chip.getAttribute('href').replace('#tpl-','');
+    const card = document.getElementById('tpl-' + id);
+    chip.style.display = (card && card.style.display !== 'none') ? '' : 'none';
+  });
+  emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+}
+
+document.getElementById('search').addEventListener('input', applyFilters);
+
+document.getElementById('langFilter').addEventListener('click', (e) => {
+  const chip = e.target.closest('.lang-chip');
+  if(!chip) return;
+  document.querySelectorAll('.lang-chip').forEach(c => c.classList.remove('active'));
+  chip.classList.add('active');
+  document.body.dataset.langFilter = chip.dataset.lang;
+  applyFilters();
+});
+
+// ---------------- GitHub settings modal ----------------
+function getGhSettings(){
+  try{ return JSON.parse(localStorage.getItem(GH_KEY) || 'null'); }
+  catch(e){ return null; }
+}
+function setGhSettings(obj){ localStorage.setItem(GH_KEY, JSON.stringify(obj)); }
+
+function openSettings(){
+  const s = getGhSettings() || {};
+  document.getElementById('cfgOwner').value = s.owner || '';
+  document.getElementById('cfgRepo').value = s.repo || '';
+  document.getElementById('cfgPath').value = s.path || 'templates.json';
+  document.getElementById('cfgBranch').value = s.branch || 'main';
+  document.getElementById('cfgToken').value = s.token || '';
+  document.getElementById('settingsModal').style.display = 'flex';
+}
+function closeSettings(){ document.getElementById('settingsModal').style.display = 'none'; }
+
+function saveSettingsAndReload(){
+  const s = {
+    owner: document.getElementById('cfgOwner').value.trim(),
+    repo: document.getElementById('cfgRepo').value.trim(),
+    path: document.getElementById('cfgPath').value.trim() || 'templates.json',
+    branch: document.getElementById('cfgBranch').value.trim() || 'main',
+    token: document.getElementById('cfgToken').value.trim()
+  };
+  setGhSettings(s);
+  closeSettings();
+  reloadFromGithub();
+}
+
+function ghHeaders(token){
+  const h = {'Accept':'application/vnd.github+json'};
+  if(token) h['Authorization'] = 'Bearer ' + token;
+  return h;
+}
+function utf8ToBase64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function base64ToUtf8(b64){ return decodeURIComponent(escape(atob(b64.replace(/\n/g,'')))); }
+
+function setStatusBanner(msg, kind){
+  const el = document.getElementById('ghStatus');
+  el.textContent = msg;
+  el.className = 'gh-status ' + (kind || 'info');
+}
+
+async function reloadFromGithub(){
+  const s = getGhSettings();
+  if(!s || !s.owner || !s.repo){
+    setStatusBanner('Nog niet verbonden met GitHub. Klik op ⚙️ GitHub om dit in te stellen.', 'warn');
+    return;
+  }
+  setStatusBanner('Bezig met laden vanaf GitHub…', 'info');
+  try{
+    const url = `https://api.github.com/repos/${s.owner}/${s.repo}/contents/${encodeURIComponent(s.path)}?ref=${encodeURIComponent(s.branch)}`;
+    const res = await fetch(url, {headers: ghHeaders(s.token)});
+    if(res.status === 404){
+      currentSha = null;
+      setStatusBanner('Verbonden, maar er bestaat nog geen bestand op GitHub. Klik op "Opslaan naar GitHub" om het aan te maken met de huidige templates.', 'warn');
+      return;
+    }
+    if(!res.ok){
+      setStatusBanner('Kon niet laden van GitHub (fout ' + res.status + '). Controleer je instellingen/token.', 'error');
+      return;
+    }
+    const data = await res.json();
+    currentSha = data.sha;
+    const parsed = JSON.parse(base64ToUtf8(data.content));
+    if(Array.isArray(parsed) && parsed.length){
+      templates = parsed;
+      ensureIds();
+      editingIds.clear();
+      render();
+    }
+    setStatusBanner('Verbonden — laatste versie van GitHub geladen.', 'ok');
+  }catch(e){
+    setStatusBanner('Kon niet verbinden met GitHub: ' + e.message, 'error');
+  }
+}
+
+async function saveToGithub(){
+  const s = getGhSettings();
+  if(!s || !s.owner || !s.repo || !s.token){
+    setStatusBanner('Vul eerst je GitHub-instellingen (incl. token) in via ⚙️ GitHub.', 'warn');
+    openSettings();
+    return;
+  }
+  setStatusBanner('Bezig met opslaan naar GitHub…', 'info');
+  try{
+    const url = `https://api.github.com/repos/${s.owner}/${s.repo}/contents/${encodeURIComponent(s.path)}`;
+    const body = {
+      message: 'Update standaardantwoorden (' + new Date().toISOString() + ')',
+      content: utf8ToBase64(JSON.stringify(templates, null, 2)),
+      branch: s.branch
+    };
+    if(currentSha) body.sha = currentSha;
+    const res = await fetch(url, {
+      method:'PUT',
+      headers: Object.assign(ghHeaders(s.token), {'Content-Type':'application/json'}),
+      body: JSON.stringify(body)
+    });
+    if(res.status === 409){
+      setStatusBanner('Iemand anders heeft ondertussen opgeslagen. Klik op "Vernieuwen" en probeer je wijziging opnieuw.', 'error');
+      return;
+    }
+    if(!res.ok){
+      setStatusBanner('Opslaan mislukt (fout ' + res.status + '). Controleer of je token schrijfrechten heeft op deze repository.', 'error');
+      return;
+    }
+    const data = await res.json();
+    currentSha = data.content.sha;
+    setStatusBanner("Opgeslagen naar GitHub — collega's zien deze versie na 'Vernieuwen'.", 'ok');
+  }catch(e){
+    setStatusBanner('Opslaan mislukt: ' + e.message, 'error');
+  }
+}
+
+// ---------------- init ----------------
+ensureIds();
+render();
+if(getGhSettings()) reloadFromGithub();
+</script>
+</body>
+</html>
