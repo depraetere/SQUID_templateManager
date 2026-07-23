@@ -1,0 +1,206 @@
+[
+  {
+    "id": "tpl01",
+    "tag": "Afwezigheid",
+    "title": "Afwezigheidsmelding (verlof)",
+    "subject": {
+      "nl": "Automatisch antwoord — Afwezig tot [Datum]",
+      "fr": "Réponse automatique — Absent(e) jusqu'au [Datum]",
+      "en": "Automatic reply — Out of office until [Datum]",
+      "de": "Automatische Antwort — Abwesend bis [Datum]"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt voor uw bericht. Ik ben afwezig tot en met [Datum] en heb momenteel geen toegang tot mijn mailbox.</p><p>Voor dringende zaken kan u terecht bij [Collega/Team] via [Contact]. Uw bericht wordt bij mijn terugkeer zo snel mogelijk beantwoord.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci pour votre message. Je suis absent(e) jusqu'au [Datum] inclus et n'ai pas accès à ma messagerie durant cette période.</p><p>Pour toute question urgente, veuillez contacter [Collega/Team] via [Contact]. Votre message recevra une réponse dès mon retour.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for your message. I am out of office until [Datum] and do not have access to my mailbox during this time.</p><p>For urgent matters, please contact [Collega/Team] via [Contact]. Your message will be answered as soon as I return.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>Vielen Dank für Ihre Nachricht. Ich bin bis einschließlich [Datum] abwesend und habe in dieser Zeit keinen Zugriff auf mein Postfach.</p><p>Bei dringenden Anliegen wenden Sie sich bitte an [Collega/Team] über [Contact]. Ihre Nachricht wird nach meiner Rückkehr schnellstmöglich beantwortet.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    "id": "tpl02",
+    "tag": "Klacht",
+    "title": "Ontvangstbevestiging klacht",
+    "subject": {
+      "nl": "Uw klacht is bij ons geregistreerd — dossier [Ordernummer]",
+      "fr": "Votre réclamation a bien été enregistrée — dossier [Ordernummer]",
+      "en": "Your complaint has been registered — case [Ordernummer]",
+      "de": "Ihre Reklamation wurde erfasst — Vorgang [Ordernummer]"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt om ons te contacteren. We hebben uw klacht ontvangen en geregistreerd onder dossiernummer [Ordernummer].</p><p>Ons team bekijkt uw situatie en neemt binnen de 2 werkdagen contact met u op.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci de nous avoir contactés. Nous avons bien reçu et enregistré votre réclamation sous le numéro de dossier [Ordernummer].</p><p>Notre équipe examine votre situation et reviendra vers vous dans les 2 jours ouvrables.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for contacting us. We have received and registered your complaint under case number [Ordernummer].</p><p>Our team is reviewing your situation and will get back to you within 2 business days.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>Vielen Dank für Ihre Nachricht. Wir haben Ihre Reklamation erhalten und unter der Vorgangsnummer [Ordernummer] erfasst.</p><p>Unser Team prüft Ihr Anliegen und meldet sich innerhalb von 2 Werktagen bei Ihnen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl03",
+    "tag": "Levering",
+    "title": "Vertraging bij levering",
+    "subject": {
+      "nl": "Update over uw bestelling [Ordernummer] — lichte vertraging",
+      "fr": "Mise à jour de votre commande [Ordernummer] — léger retard",
+      "en": "Update on your order [Ordernummer] — slight delay",
+      "de": "Update zu Ihrer Bestellung [Ordernummer] — kleine Verzögerung"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>We willen u laten weten dat uw bestelling [Ordernummer] iets vertraging oploopt. De nieuwe verwachte leverdatum is [Datum].</p><p>Onze excuses voor het ongemak. Zodra uw pakket verzonden is, ontvangt u een track & trace-link.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Nous tenions à vous informer que votre commande [Ordernummer] accuse un léger retard. La nouvelle date de livraison prévue est le [Datum].</p><p>Nous nous excusons pour la gêne occasionnée. Dès l'expédition de votre colis, vous recevrez un lien de suivi.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>We wanted to let you know that your order [Ordernummer] is experiencing a slight delay. The new expected delivery date is [Datum].</p><p>We apologise for the inconvenience. Once your parcel ships, you will receive a tracking link.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir möchten Sie darüber informieren, dass sich Ihre Bestellung [Ordernummer] leicht verzögert. Das neue voraussichtliche Lieferdatum ist der [Datum].</p><p>Wir entschuldigen uns für die Unannehmlichkeiten. Sobald Ihr Paket versendet wurde, erhalten Sie einen Sendungsverfolgungslink.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl04",
+    "tag": "Facturatie",
+    "title": "Vraag over factuur",
+    "subject": {
+      "nl": "Betreft uw vraag over factuur [Ordernummer]",
+      "fr": "Concernant votre question relative à la facture [Ordernummer]",
+      "en": "Regarding your question about invoice [Ordernummer]",
+      "de": "Zu Ihrer Frage bezüglich Rechnung [Ordernummer]"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt voor uw bericht over factuur [Ordernummer]. We bekijken dit graag voor u.</p><p>Kan u ons bevestigen welk bedrag of welke lijn op de factuur onduidelijk is? Zo kunnen we dit zo snel mogelijk rechtzetten of verduidelijken.</p><p>Met vriendelijke groeten,<br><b>Boekhouding / Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci pour votre message concernant la facture [Ordernummer]. Nous allons volontiers l'examiner.</p><p>Pourriez-vous nous confirmer quel montant ou quelle ligne de la facture pose question ? Nous pourrons ainsi corriger ou clarifier la situation rapidement.</p><p>Cordialement,<br><b>Comptabilité / Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for your message regarding invoice [Ordernummer]. We are happy to look into this for you.</p><p>Could you confirm which amount or line item on the invoice is unclear? This will help us correct or clarify it as quickly as possible.</p><p>Kind regards,<br><b>Accounting / Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihre Nachricht bezüglich der Rechnung [Ordernummer]. Wir prüfen dies gerne für Sie.</p><p>Könnten Sie uns bestätigen, welcher Betrag oder welche Position auf der Rechnung unklar ist? So können wir dies möglichst schnell klären.</p><p>Mit freundlichen Grüßen,<br><b>Buchhaltung / Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl05",
+    "tag": "Bestelling",
+    "title": "Bestelling bevestigd",
+    "subject": {
+      "nl": "Bevestiging van uw bestelling [Ordernummer]",
+      "fr": "Confirmation de votre commande [Ordernummer]",
+      "en": "Confirmation of your order [Ordernummer]",
+      "de": "Bestätigung Ihrer Bestellung [Ordernummer]"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>We bevestigen dat we uw bestelling [Ordernummer] goed hebben ontvangen. Ze wordt verwerkt en u ontvangt een verzendbevestiging zodra ze onderweg is.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Nous vous confirmons la bonne réception de votre commande [Ordernummer]. Elle est en cours de traitement et vous recevrez une confirmation d'expédition dès son départ.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>We confirm that we have received your order [Ordernummer]. It is being processed and you will receive a shipping confirmation once it is on its way.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen den Eingang Ihrer Bestellung [Ordernummer]. Sie wird derzeit bearbeitet, und Sie erhalten eine Versandbestätigung, sobald sie unterwegs ist.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl06",
+    "tag": "Terugbetaling",
+    "title": "Terugbetaling in verwerking",
+    "subject": {
+      "nl": "Uw terugbetaling voor [Ordernummer] is in verwerking",
+      "fr": "Votre remboursement pour [Ordernummer] est en cours de traitement",
+      "en": "Your refund for [Ordernummer] is being processed",
+      "de": "Ihre Rückerstattung für [Ordernummer] wird bearbeitet"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>We bevestigen dat de terugbetaling voor [Ordernummer] is opgestart. Reken op een verwerkingstijd van 3 tot 5 werkdagen, afhankelijk van uw bank.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Nous confirmons que le remboursement pour [Ordernummer] a bien été initié. Comptez un délai de traitement de 3 à 5 jours ouvrables, selon votre banque.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>We confirm that the refund for [Ordernummer] has been initiated. Please allow 3 to 5 business days for processing, depending on your bank.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen, dass die Rückerstattung für [Ordernummer] eingeleitet wurde. Rechnen Sie je nach Bank mit 3 bis 5 Werktagen Bearbeitungszeit.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl07",
+    "tag": "Storing",
+    "title": "Technische storing gemeld",
+    "subject": {
+      "nl": "We onderzoeken het gemelde probleem — [Ordernummer]",
+      "fr": "Nous examinons le problème signalé — [Ordernummer]",
+      "en": "We are investigating the reported issue — [Ordernummer]",
+      "de": "Wir prüfen das gemeldete Problem — [Ordernummer]"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt om het probleem te melden. Ons technisch team is op de hoogte en onderzoekt de oorzaak.</p><p>We houden u op de hoogte van zodra er nieuws is, en danken u voor uw geduld.</p><p>Met vriendelijke groeten,<br><b>Technische Dienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci de nous avoir signalé ce problème. Notre équipe technique en a été informée et en recherche la cause.</p><p>Nous vous tiendrons informé(e) dès que possible et vous remercions pour votre patience.</p><p>Cordialement,<br><b>Service technique</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for reporting this issue. Our technical team has been notified and is investigating the cause.</p><p>We will keep you updated as soon as we have news, and thank you for your patience.</p><p>Kind regards,<br><b>Technical Support</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für die Meldung. Unser technisches Team wurde informiert und untersucht die Ursache.</p><p>Wir halten Sie auf dem Laufenden, sobald es Neuigkeiten gibt, und danken Ihnen für Ihre Geduld.</p><p>Mit freundlichen Grüßen,<br><b>Technischer Support</b></p>"
+    }
+  },
+  {
+    "id": "tpl08",
+    "tag": "Offerte",
+    "title": "Offerte-aanvraag ontvangen",
+    "subject": {
+      "nl": "Uw offerteaanvraag hebben we ontvangen",
+      "fr": "Votre demande de devis a bien été reçue",
+      "en": "We have received your quote request",
+      "de": "Ihre Angebotsanfrage ist bei uns eingegangen"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt voor uw interesse. We hebben uw aanvraag voor een offerte goed ontvangen en bereiden deze voor.</p><p>U ontvangt onze voorstel binnen de [X] werkdagen.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci pour votre intérêt. Nous avons bien reçu votre demande de devis et sommes en train de la préparer.</p><p>Vous recevrez notre proposition sous [X] jours ouvrables.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for your interest. We have received your quote request and are preparing it.</p><p>You will receive our proposal within [X] business days.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihr Interesse. Wir haben Ihre Angebotsanfrage erhalten und bereiten diese vor.</p><p>Sie erhalten unser Angebot innerhalb von [X] Werktagen.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    "id": "tpl09",
+    "tag": "Gegevens",
+    "title": "Adres- of contactwijziging verwerkt",
+    "subject": {
+      "nl": "Uw gegevens werden aangepast",
+      "fr": "Vos coordonnées ont été mises à jour",
+      "en": "Your details have been updated",
+      "de": "Ihre Daten wurden aktualisiert"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>We bevestigen dat uw gegevens correct werden aangepast in ons systeem.</p><p>Als iets niet klopt, laat het ons gerust weten.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Nous vous confirmons que vos coordonnées ont bien été mises à jour dans notre système.</p><p>N'hésitez pas à nous signaler toute inexactitude.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>We confirm that your details have been successfully updated in our system.</p><p>Please let us know if anything looks incorrect.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir bestätigen, dass Ihre Daten in unserem System erfolgreich aktualisiert wurden.</p><p>Sollte etwas nicht stimmen, lassen Sie es uns gerne wissen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl10",
+    "tag": "Contract",
+    "title": "Contractverlenging",
+    "subject": {
+      "nl": "Uw contract [Ordernummer] — verlenging",
+      "fr": "Votre contrat [Ordernummer] — renouvellement",
+      "en": "Your contract [Ordernummer] — renewal",
+      "de": "Ihr Vertrag [Ordernummer] — Verlängerung"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Uw contract [Ordernummer] loopt binnenkort af op [Datum]. Graag bespreken we de verlenging op een moment dat u past.</p><p>Laat ons weten welke datum u schikt.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Votre contrat [Ordernummer] arrive à échéance le [Datum]. Nous aimerions discuter de son renouvellement à un moment qui vous convient.</p><p>Merci de nous indiquer une date.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Your contract [Ordernummer] is due to expire on [Datum]. We would like to discuss its renewal at a time that suits you.</p><p>Please let us know a convenient date.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>Ihr Vertrag [Ordernummer] läuft am [Datum] aus. Wir möchten die Verlängerung gerne zu einem für Sie passenden Zeitpunkt besprechen.</p><p>Bitte teilen Sie uns einen passenden Termin mit.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
+    }
+  },
+  {
+    "id": "tpl11",
+    "tag": "Klacht",
+    "title": "Klacht opgelost — opvolging",
+    "subject": {
+      "nl": "Uw dossier [Ordernummer] is afgerond",
+      "fr": "Votre dossier [Ordernummer] est clôturé",
+      "en": "Your case [Ordernummer] has been resolved",
+      "de": "Ihr Vorgang [Ordernummer] wurde abgeschlossen"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>We laten u weten dat dossier [Ordernummer] werd afgerond. We hopen dat de oplossing naar wens is.</p><p>Heeft u nog vragen, dan helpen we u graag verder.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Nous vous informons que le dossier [Ordernummer] a été clôturé. Nous espérons que la solution apportée vous convient.</p><p>N'hésitez pas à revenir vers nous pour toute question.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>We would like to let you know that case [Ordernummer] has been resolved. We hope the outcome meets your expectations.</p><p>If you have any further questions, we are happy to help.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir möchten Sie informieren, dass der Vorgang [Ordernummer] abgeschlossen wurde. Wir hoffen, die Lösung entspricht Ihren Erwartungen.</p><p>Bei weiteren Fragen helfen wir Ihnen gerne.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  },
+  {
+    "id": "tpl12",
+    "tag": "Buiten uren",
+    "title": "Bericht buiten kantooruren ontvangen",
+    "subject": {
+      "nl": "We hebben uw bericht ontvangen",
+      "fr": "Nous avons bien reçu votre message",
+      "en": "We have received your message",
+      "de": "Wir haben Ihre Nachricht erhalten"
+    },
+    "body": {
+      "nl": "<p>Beste [Naam],</p><p>Bedankt voor uw bericht. Onze kantoren zijn momenteel gesloten; we behandelen berichten van maandag tot vrijdag, van 9 tot 17 uur.</p><p>We nemen zo snel mogelijk contact met u op tijdens de eerstvolgende werkdag.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
+      "fr": "<p>Bonjour [Naam],</p><p>Merci pour votre message. Nos bureaux sont actuellement fermés ; nous traitons les messages du lundi au vendredi, de 9h à 17h.</p><p>Nous reviendrons vers vous dès le prochain jour ouvrable.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
+      "en": "<p>Dear [Naam],</p><p>Thank you for your message. Our offices are currently closed; we handle messages Monday to Friday, 9am to 5pm.</p><p>We will get back to you as soon as possible on the next business day.</p><p>Kind regards,<br><b>Customer Service</b></p>",
+      "de": "<p>Sehr geehrte(r) [Naam],</p><p>vielen Dank für Ihre Nachricht. Unsere Büros sind derzeit geschlossen; wir bearbeiten Nachrichten von Montag bis Freitag, 9 bis 17 Uhr.</p><p>Wir melden uns schnellstmöglich am nächsten Werktag bei Ihnen.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
+    }
+  }
+]
