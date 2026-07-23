@@ -1,39 +1,5 @@
 [
   {
-    "id": "tpl10",
-    "tag": "Contract",
-    "title": "Contractverlenging",
-    "subject": {
-      "nl": "Uw contract [Ordernummer] — verlenging",
-      "fr": "Votre contrat [Ordernummer] — renouvellement",
-      "en": "Your contract [Ordernummer] — renewal",
-      "de": "Ihr Vertrag [Ordernummer] — Verlängerung"
-    },
-    "body": {
-      "nl": "<p>Beste [Naam],</p><p>Uw contract [Ordernummer] loopt binnenkort af op [Datum]. Graag bespreken we de verlenging op een moment dat u past.</p><p>Laat ons weten welke datum u schikt.</p><p>Met vriendelijke groeten,<br><b>[Naam afzender]</b></p>",
-      "fr": "<p>Bonjour [Naam],</p><p>Votre contrat [Ordernummer] arrive à échéance le [Datum]. Nous aimerions discuter de son renouvellement à un moment qui vous convient.</p><p>Merci de nous indiquer une date.</p><p>Cordialement,<br><b>[Naam afzender]</b></p>",
-      "en": "<p>Dear [Naam],</p><p>Your contract [Ordernummer] is due to expire on [Datum]. We would like to discuss its renewal at a time that suits you.</p><p>Please let us know a convenient date.</p><p>Kind regards,<br><b>[Naam afzender]</b></p>",
-      "de": "<p>Sehr geehrte(r) [Naam],</p><p>Ihr Vertrag [Ordernummer] läuft am [Datum] aus. Wir möchten die Verlängerung gerne zu einem für Sie passenden Zeitpunkt besprechen.</p><p>Bitte teilen Sie uns einen passenden Termin mit.</p><p>Mit freundlichen Grüßen,<br><b>[Naam afzender]</b></p>"
-    }
-  },
-  {
-    "id": "tpl11",
-    "tag": "Klacht",
-    "title": "Klacht opgelost — opvolging",
-    "subject": {
-      "nl": "Uw dossier [Ordernummer] is afgerond",
-      "fr": "Votre dossier [Ordernummer] est clôturé",
-      "en": "Your case [Ordernummer] has been resolved",
-      "de": "Ihr Vorgang [Ordernummer] wurde abgeschlossen"
-    },
-    "body": {
-      "nl": "<p>Beste [Naam],</p><p>We laten u weten dat dossier [Ordernummer] werd afgerond. We hopen dat de oplossing naar wens is.</p><p>Heeft u nog vragen, dan helpen we u graag verder.</p><p>Met vriendelijke groeten,<br><b>Klantendienst</b></p>",
-      "fr": "<p>Bonjour [Naam],</p><p>Nous vous informons que le dossier [Ordernummer] a été clôturé. Nous espérons que la solution apportée vous convient.</p><p>N'hésitez pas à revenir vers nous pour toute question.</p><p>Cordialement,<br><b>Service clientèle</b></p>",
-      "en": "<p>Dear [Naam],</p><p>We would like to let you know that case [Ordernummer] has been resolved. We hope the outcome meets your expectations.</p><p>If you have any further questions, we are happy to help.</p><p>Kind regards,<br><b>Customer Service</b></p>",
-      "de": "<p>Sehr geehrte(r) [Naam],</p><p>wir möchten Sie informieren, dass der Vorgang [Ordernummer] abgeschlossen wurde. Wir hoffen, die Lösung entspricht Ihren Erwartungen.</p><p>Bei weiteren Fragen helfen wir Ihnen gerne.</p><p>Mit freundlichen Grüßen,<br><b>Kundendienst</b></p>"
-    }
-  },
-  {
     "id": "tpl12",
     "tag": "Buiten uren",
     "title": "Bericht buiten kantooruren ontvangen",
